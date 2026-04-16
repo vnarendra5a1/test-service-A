@@ -1,0 +1,26 @@
+{
+  "name": "service-a",
+  "version": "1.0.0",
+  "description": "Test Service",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx tsc && npx tsc-alias",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "yarn build && node --inspect dist/server.js"
+  },
+  "author": "Narendra",
+  "license": "ISC",
+  "dependencies": {
+    "bluemountain-platfrom": "file:/Users/oealq80/Desktop/Learnings/core/bluemountain-platfrom-1.0.0.tgz",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.3",
+    "express": "^4.22.1"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.2.0",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.9.3"
+  }
+}
