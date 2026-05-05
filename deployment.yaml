@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: policy-servicing
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: policy-servicing
+  template:
+    metadata:
+      labels:
+        app: policy-servicing
+    spec:
+      imagePullSecrets:
+        - name: acr-pull-secret
+      containers:
+        - name: service
+          image: bluemountain8088-hvhgc9esf9h6g2h0.azurecr.io/policy-servicing:1.0.0
+          env:
+            - name: SERVER_PORT
+              value: "9000"
+            - name: SERVICE_NAME
+              value: "policy-servicing"
+            - name: ETCD_ENDPOINT
+              value: "http://etcd:2379"
+            - name: TEMPO_ENDPOINT
+              value: "http://tempo:4318"
+            - name: LOKI_HOST
+              value: "http://loki:3100"
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://tempo:4318/v1/traces"
+            - name: ASB_CONNECTION_STRING
+              value: "Endpoint=sb://sierra-platform.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=SCvGdrQHv5me/oNBWCeUhx4SbPxmb6IP9+ASbJ7T/R8="
+            - name: EVENTS_CONNECTION_STRING
+              value: "Endpoint=sb://sierra-platform-events.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ukO5fss9GwsWXV0eFucxr4SRyqtPR87WH+AEhJ56SIk="
+            - name: EVENT_HUB_NAME
+              value: "sierra-platform-events"
+          ports:
+            - containerPort: 9000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: policy-servicing
+  namespace: platform
+spec:
+  type: LoadBalancer
+  selector:
+    app: policy-servicing
+  ports:
+    - protocol: TCP
+      port: 9000      # Port the Service listens on
+      targetPort: 9000 # Port your Node.js app listens on

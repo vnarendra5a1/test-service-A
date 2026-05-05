@@ -1,9 +1,7 @@
 import { Platform } from "bluemountain-platfrom";
 
+console.log('Initializing platform...', process.env.SERVICE_NAME);
+
 export const platform = new Platform(
-    {
-        clientId: process.env.CLIENT_ID!,
-        brokers: process.env.KAFKA_BROKERS!.split(","),
-    },
     process.env.SERVICE_NAME!,
 );

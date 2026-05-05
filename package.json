@@ -1,5 +1,5 @@
 {
-  "name": "service-a",
+  "name": "servcing",
   "version": "1.0.0",
   "description": "Test Service",
   "main": "index.js",
@@ -11,7 +11,7 @@
   "author": "Narendra",
   "license": "ISC",
   "dependencies": {
-    "bluemountain-platfrom": "file:/Users/oealq80/Desktop/Learnings/core/bluemountain-platfrom-1.0.0.tgz",
+    "bluemountain-platfrom": "file:/./bluemountain-platfrom-1.0.14.tgz",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "express": "^4.22.1"
