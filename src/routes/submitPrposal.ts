@@ -20,28 +20,27 @@ class SubmitProposal {
         const {
             proposalNo,
             proposalDetails,
-            status
         } = request
+        const status = state?.proposalStatus || 'SUBMIT'
         if (status === 'SUBMIT') {
             this.#proposalDetails.set(proposalNo, proposalDetails)
-            await platform.forward(
-                {
-                    operation: "onProposalSubmitted",
-                    mode: "KAFKA",
-                    payload: {
-                        proposalNo,
-                        proposalDetails,
-                        proposalStatus: "Initial Submission.",
-                        submissionStatus: "Pending for approval",
-                        wfId,
-                    },
-                    source: "serviceA",
-                    target: "serviceB",
-                    additionalInfo: {},
-                    user: {},
-                    correlationId: ''
-                }
-            )
+            // await platform.forward(
+            //     {
+            //         operation: "onProposalSubmitted",
+            //         mode: "SERVICEBUS",
+            //         payload: {
+            //             proposalNo,
+            //             proposalDetails,
+            //             proposalStatus: "Initial Submission.",
+            //             submissionStatus: "Pending for approval",
+            //             wfId,
+            //         },
+            //         source: "serviceA",
+            //         target: "serviceB",
+            //         additionalInfo: {},
+            //         user: {},
+            //     }
+            // )
             return {
                 response: { message: "Success" },
                 state: {

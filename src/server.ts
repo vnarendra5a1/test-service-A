@@ -2,7 +2,6 @@ import express, { Express, NextFunction, RequestHandler } from 'express';
 import dotenv from 'dotenv';
 import cors from "cors";
 dotenv.config();
-console.log('Loading config is completed.')
 import { platform } from "./platform";
 import SubmitProposal from './routes/submitPrposal';
 import { registerAllRoutes } from './routes';
@@ -21,15 +20,15 @@ app.use(tracingMiddleware)
 const submitProposal = new SubmitProposal()
 const routes = registerAllRoutes(app)
 
-// platform.init(routes).then(() => {
+platform.init(routes).then(() => {
+    app.listen(port, async () => {
+        console.log(`⚡️[server]: Server is running at http://localhost:${port}, pointing to ${environment}`);
+    })
+    app.post("/proposal/submit", submitProposal.submit.bind(submitProposal))
 
-// }).catch((err: any) => {
-//     logger.error('Failed to load platform ', err)
-// })
-app.listen(port, async () => {
-    console.log(`⚡️[server]: Server is running at http://localhost:${port}, pointing to ${environment}`);
+}).catch((err: any) => {
+    logger.error('Failed to load platform ', err)
 })
-app.post("/proposal/submit", submitProposal.submit.bind(submitProposal))
 
 process.on('SIGTERM', () => platform.shutdown());
 
