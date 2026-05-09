@@ -21,8 +21,12 @@ class SubmitProposal {
             proposalNo,
             proposalDetails,
         } = request
-        const status = state?.proposalStatus || 'SUBMIT'
+        const status = request.status || state?.proposalStatus || 'SUBMIT'
+
         if (status === 'SUBMIT') {
+            platform.logEvent('submitProposal', 'Submit proposal workflow started',
+                'info',
+                { proposalNo, status })
             this.#proposalDetails.set(proposalNo, proposalDetails)
             // await platform.forward(
             //     {
@@ -53,6 +57,9 @@ class SubmitProposal {
                 status: "IN_PROGRESS"
             }
         } else if (status === 'APPROVED') {
+            platform.logEvent('submitProposal', 'Submit proposal workflow completed',
+                'info',
+                { proposalNo, status })
             return {
                 response: { message: "Success" },
                 state: {
